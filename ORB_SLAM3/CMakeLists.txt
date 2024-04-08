@@ -29,6 +29,7 @@ if (SUPPORT_SUPERPOINT)
     find_package(cv_bridge REQUIRED)
     find_package(tf2 REQUIRED)
     find_package(tf2_ros REQUIRED)
+    find_package(tf2_geometry_msgs REQUIRED)
     message("dnn_node_includes: ${dnn_node_INCLUDE_DIR}")
     message("dnn_node_includes: ${dnn_node_INCLUDE_DIRS}")
     include_directories(
@@ -51,10 +52,15 @@ set(OpenSSL_LIBRARY_PATH ${CMAKE_SYSROOT}/usr/lib/aarch64-linux-gnu/)
 
 # Check C++11 or C++0x support
 include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++17" COMPILER_SUPPORTS_CXX17)
 CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
-if(COMPILER_SUPPORTS_CXX14)
+if(COMPILER_SUPPORTS_CXX17)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+    add_definitions(-DCOMPILEDWITHC11)
+    message(STATUS "Using flag -std=c++17.")
+elseif(COMPILER_SUPPORTS_CXX14)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
     add_definitions(-DCOMPILEDWITHC11)
     message(STATUS "Using flag -std=c++14.")
@@ -71,6 +77,7 @@ else()
 endif()
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
+
 
 find_package(OpenCV)
    if(NOT OpenCV_FOUND)
@@ -185,7 +192,8 @@ ament_target_dependencies(${PROJECT_NAME}
         rclcpp_components
         cv_bridge
         tf2
-        tf2_ros)
+        tf2_ros
+	tf2_geometry_msgs)
 endif()
 
 # If RealSense SDK is found the library is added and its examples compiled
