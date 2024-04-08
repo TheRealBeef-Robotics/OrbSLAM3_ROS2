@@ -15,10 +15,15 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ")
 
 ## Check C++11 or C++0x support
 include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++17" COMPILER_SUPPORTS_CXX17)
 CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
-if(COMPILER_SUPPORTS_CXX14)
+if(COMPILER_SUPPORTS_CXX17)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+    add_definitions(-DCOMPILEDWITHC11)
+    message(STATUS "Using flag -std=c++17.")
+elseif(COMPILER_SUPPORTS_CXX14)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
     add_definitions(-DCOMPILEDWITHC11)
     message(STATUS "Using flag -std=c++14.")
@@ -60,6 +65,7 @@ find_package(cv_bridge REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(orb_slam3 REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 
 message("orb_slam3 dirs: ${orb_slam3_INCLUDE_DIRS}, ${orb_slam3_LIBRARIES}, ${orb_slam3_LIBRARIES_DIRS}")
 
@@ -103,7 +109,8 @@ set(ROS2_LIBS
 	tf2_ros
 	console_bridge
 	orb_slam3
-        )
+        tf2_geometry_msgs
+	)
 
 #build ROS2 examples
 add_executable(stereo_inertial src/ros2_stereo_inertial.cpp)
