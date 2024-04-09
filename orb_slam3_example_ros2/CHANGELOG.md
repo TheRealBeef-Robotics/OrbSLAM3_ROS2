@@ -1,5 +1,10 @@
 # Changelog for package orb_slam3_example_ros2
 
+tros_2.1.0 (2024-04-09)
+------------------
+1. 适配ros2 humble零拷贝。
+2. 修复编译问题。
+
 tros_2.0.3 (2023-12-22)
 ------------------
 1. 更新package.xml，解决arm平台打包失败问题。
