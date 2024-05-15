@@ -1,3 +1,12 @@
+# Original Readme Below
+
+Changes to the HorizonRDK ORBSLAM3 implementation as it's the best working ROS2 integration of all the repositories I've looked at.
+
+Tested with ROS2 Humble.
+
+---
+
+
 English| [简体中文](./README_cn.md)
 
 ## Visual SLAM Algorithm
