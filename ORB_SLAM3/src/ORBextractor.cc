@@ -65,7 +65,7 @@
 
 
 #ifdef SUPPORT_SUPERPOINT
-#include "SuperPointExtractor.h"
+//#include "SuperPointExtractor.h"
 #endif
 
 using namespace cv;
@@ -1223,13 +1223,13 @@ ORBextractor* ORBextractor::make_extractor(
       return new ORBextractor(
               nfeatures, scaleFactor, nlevels, iniThFAST, minThFAST);
     case EXTRACTOR_TYPE::SUPERPOINT:
-#ifdef SUPPORT_SUPERPOINT
-      return new SuperPointextractor(
-              nfeatures, scaleFactor, nlevels, iniThFAST, minThFAST);
-#else
+//#ifdef SUPPORT_SUPERPOINT
+//      return new SuperPointextractor(
+//              nfeatures, scaleFactor, nlevels, iniThFAST, minThFAST);
+//#else
       std::cout << "Unsupport Superpoint" << std::endl;
       return nullptr;
-#endif
+//#endif
   }
 }
 
